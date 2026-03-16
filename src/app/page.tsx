@@ -2,49 +2,45 @@
 
 import { motion, useInView } from "framer-motion";
 import {
-  PenTool,
-  Monitor,
-  Zap,
-  Battery,
-  CheckCircle2,
-  Star,
-  ArrowRight,
-  Video,
-  MousePointer2,
-  Share2,
-  Layers,
-  Sparkles,
-  ShieldCheck,
-  Wifi,
-  Clock,
-  Package,
-  Users,
-  GraduationCap,
-  BookOpen,
   ChevronDown,
-  Globe,
-  Lock,
-  Server,
+  Menu as MenuIcon,
+  Plus,
+  Star,
+  Package,
+  Video,
+  Share2,
+  Monitor,
+  Layers,
+  GraduationCap,
+  Usb,
+  Check,
+  ShieldCheck,
   RefreshCcw,
-  Fingerprint,
-  Eye,
-  Award,
-  TrendingUp,
+  Minus,
   Heart,
-  Send,
+  Cable
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRef, useState } from "react";
 
-function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function Reveal({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay }}
       className={className}
     >
       {children}
@@ -52,735 +48,614 @@ function AnimatedSection({ children, className = "" }: { children: React.ReactNo
   );
 }
 
-const featureTabs = [
-  {
-    id: "writing",
-    label: "Écriture",
-    icon: PenTool,
-    features: [
-      { title: "Surface texture papier", desc: "Texture micro-grainée qui reproduit la friction naturelle d'un stylo sur du papier. Fini l'écriture qui glisse." },
-      { title: "8192 niveaux de pression", desc: "Chaque trait reflète votre intention — des lignes fines pour les indices aux traits épais pour les résultats." },
-      { title: "Inclinaison 60°", desc: "Inclinez le stylet naturellement pour varier l'épaisseur, exactement comme un vrai marqueur." },
-    ],
-  },
-  {
-    id: "performance",
-    label: "Performance",
-    icon: Zap,
-    features: [
-      { title: "Latence < 8ms", desc: "Notre puce dédiée assure que votre écriture apparaît instantanément — plus rapide que l'œil humain ne peut percevoir." },
-      { title: "Taux de rapport 266 PPS", desc: "266 points par seconde pour une fluidité absolue, même lors d'écritures rapides au tableau." },
-      { title: "Zéro décalage Bluetooth", desc: "Connexion USB-C filaire : aucune interférence, aucun appairage, aucune latence sans fil." },
-    ],
-  },
-  {
-    id: "compatibility",
-    label: "Compatibilité",
-    icon: Monitor,
-    features: [
-      { title: "Windows, Mac, Linux, ChromeOS", desc: "Plug & play sur tous les systèmes d'exploitation. Aucun pilote complexe à installer." },
-      { title: "Zoom, Teams, Meet, Miro", desc: "Fonctionne parfaitement avec les tableaux blancs intégrés de toutes les plateformes de visio." },
-      { title: "OpenBoard, Jamboard, Whiteboard", desc: "Compatible avec tous les logiciels de tableau blanc éducatif du marché." },
-    ],
-  },
-  {
-    id: "design",
-    label: "Conception",
-    icon: Package,
-    features: [
-      { title: "Stylet sans pile (EMR)", desc: "Technologie de résonance électromagnétique — votre stylet n'a jamais besoin d'être rechargé." },
-      { title: "4 boutons programmables", desc: "Changez de couleur, effacez, annulez ou zoomez en une fraction de seconde." },
-      { title: "Format A5 compact", desc: "Assez grand pour écrire confortablement, assez compact pour votre bureau." },
-    ],
-  },
-];
-
-const testimonials = [
-  {
-    quote: "Avant l'Edupad, j'utilisais ma souris pour expliquer des équations sur Zoom. C'était un cauchemar. Maintenant, mes élèves me disent que c'est comme si j'écrivais au tableau devant eux.",
-    author: "Marc Dubois",
-    role: "Professeur de Mathématiques",
-    company: "Tutorat Pro",
-    rating: 5,
-  },
-  {
-    quote: "La surface texturée change tout. J'ai essayé des iPad et des tablettes Wacom, mais l'Edupad est le seul qui me donne vraiment l'impression d'écrire sur du papier.",
-    author: "Sophie Laurent",
-    role: "Tutrice en Physique-Chimie",
-    company: "Betterprof",
-    rating: 5,
-  },
-  {
-    quote: "Le fait qu'il n'y ait pas de batterie dans le stylet est génial. Je donne parfois 6h de cours d'affilée, je n'ai plus à m'inquiéter de tomber en panne.",
-    author: "Thomas Martin",
-    role: "Professeur d'Anglais",
-    company: "ABC Tutoring",
-    rating: 5,
-  },
-];
-
 const faqs = [
-  { q: "Est-ce compatible avec mon Mac / PC ?", a: "Oui, l'Edupad est 100% compatible avec Windows (10 et 11), macOS (10.12 et supérieur), ChromeOS et Linux. Il fonctionne en plug & play sur la plupart des systèmes — branchez et commencez à enseigner." },
-  { q: "Ai-je besoin d'installer des logiciels ?", a: "Non. Pour les fonctions de base, branchez simplement la tablette via USB-C. Si vous souhaitez personnaliser les boutons de raccourcis, un petit utilitaire léger est disponible au téléchargement." },
-  { q: "Est-ce que ça marche avec Zoom et Teams ?", a: "Absolument. L'Edupad est reconnu comme un périphérique de pointage standard. Il fonctionne parfaitement avec la fonction « Tableau Blanc » de Zoom, Teams, Google Meet, et des outils comme Miro ou Microsoft Whiteboard." },
-  { q: "Quelle est la différence avec une tablette Wacom ?", a: "Les tablettes Wacom sont conçues pour les artistes. L'Edupad est optimisé pour l'enseignement : surface papier pour l'écriture (pas le dessin), raccourcis pédagogiques, et un guide de démarrage spécifique aux tuteurs." },
-  { q: "Que se passe-t-il si je n'aime pas la tablette ?", a: "Vous bénéficiez d'une garantie satisfait ou remboursé de 30 jours. Si l'Edupad ne révolutionne pas vos cours en ligne, renvoyez-le nous et nous vous rembourserons intégralement, sans poser de questions." },
+  { q: "Qu'est-ce qui différencie l'Edupad des autres tablettes ?", a: "L'Edupad n'est pas juste une autre tablette graphique. Elle est conçue pour la transparence, la facilité d'utilisation et l'enseignement à long terme. Avec sa surface texturée auditable, son stylet sans pile et son architecture Plug & Play, vous gardez le contrôle total de vos cours sans dépendre de pilotes complexes." },
+  { q: "Que signifie une architecture Plug & Play ?", a: "Une architecture Plug & Play signifie que l'Edupad est conçu pour fonctionner instantanément sur n'importe quel système (Windows, Mac, ChromeOS) sans aucune installation préalable. Branchez simplement le câble USB-C et commencez à enseigner." },
+  { q: "L'Edupad fonctionne-t-il avec Zoom et d'autres applications ?", a: "Oui. L'Edupad est compatible avec une large gamme d'applications tierces telles que Zoom, Teams, Google Meet, ainsi que des tableaux blancs comme Miro et OpenBoard. Il crée une connexion fluide entre votre main et l'écran." },
+  { q: "Quelle est la durée de vie du stylet ?", a: "Le stylet de l'Edupad utilise la technologie EMR (résonance électromagnétique), ce qui signifie qu'il ne contient aucune pile ni batterie. Sa durée de vie est virtuellement illimitée, vous assurant de ne jamais tomber en panne au milieu d'un cours." },
 ];
 
 export default function LandingPage() {
-  const [activeTab, setActiveTab] = useState("writing");
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
-
-  const currentTab = featureTabs.find((t) => t.id === activeTab)!;
+  const bigTextRef = useRef(null);
+  const bigTextInView = useInView(bigTextRef, { once: true, margin: "-100px" });
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100">
-      {/* ==================== NAVIGATION ==================== */}
-      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-xl z-50 border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16 lg:h-18">
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center shadow-sm shadow-blue-600/20">
-                <PenTool className="text-white w-5 h-5" />
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-brand/30 selection:text-white overflow-x-hidden">
+
+      {/* ===== GLOBAL NAV (Trezor Style) ===== */}
+      <div className="fixed top-4 left-0 right-0 z-50 px-4 md:px-8 flex justify-center">
+        <nav className="w-full max-w-[1400px] bg-white rounded-full h-14 md:h-16 flex items-center justify-between px-6 shadow-sm border border-gray-100">
+          {/* Left: Logo */}
+          <div className="flex items-center">
+            <Image src="/images/edupad_black_png.png" alt="Edupad" width={140} height={36} className="h-7 w-auto" />
+          </div>
+
+          {/* Center: Links */}
+          <div className="hidden lg:flex items-center gap-8">
+            <Link href="#features" className="text-[14px] font-medium text-black hover:text-gray-500 transition-colors">
+              Caractéristiques
+            </Link>
+            <Link href="#specs" className="text-[14px] font-medium text-black hover:text-gray-500 transition-colors">
+              Spécifications
+            </Link>
+            <Link href="#pricing" className="text-[14px] font-medium text-black hover:text-gray-500 transition-colors">
+              Prix
+            </Link>
+            <Link href="#faq" className="text-[14px] font-medium text-black hover:text-gray-500 transition-colors">
+              FAQ
+            </Link>
+          </div>
+
+          {/* Right: CTA & Menu */}
+          <div className="flex items-center gap-4">
+            <Link href="#pricing" className="hidden sm:flex items-center justify-center bg-[#0265BF] text-white px-5 py-2 rounded-full text-[14px] font-bold hover:bg-[#0254a3] transition-colors shadow-sm">
+              Acheter maintenant
+            </Link>
+            <button className="text-[14px] font-medium text-black hover:text-gray-500 transition-colors flex items-center gap-2 lg:hidden">
+              Menu
+              <MenuIcon className="w-5 h-5" />
+            </button>
+          </div>
+        </nav>
+      </div>
+
+      {/* ===== HERO ===== */}
+      <section className="pt-32 pb-48 px-6 lg:min-h-[90vh] flex items-center bg-white text-slate-900 rounded-b-[40px] relative z-10 overflow-visible border-b border-slate-100">
+        {/* Subtle background glow */}
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-slate-100/50 blur-[120px] rounded-full pointer-events-none" />
+        
+        <div className="max-w-[1400px] mx-auto w-full grid lg:grid-cols-12 gap-12 items-center relative z-10">
+          {/* Left Column */}
+          <div className="flex flex-col justify-center h-full pt-10 lg:pt-0 lg:col-span-5">
+            <Reveal>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-100 mb-6 w-fit">
+                <span className="flex h-2 w-2 rounded-full bg-[#0265BF] animate-pulse"></span>
+                <span className="text-xs font-bold text-[#0265BF] tracking-wide uppercase">Démarquez-vous des autres tuteurs avec la tablette #1</span>
               </div>
-              <span className="text-xl font-bold tracking-tight text-slate-900">Edupad</span>
-            </div>
-            <div className="hidden md:flex items-center gap-8">
-              <Link href="#features" className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">Fonctionnalités</Link>
-              <Link href="#how-it-works" className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">Comment ça marche</Link>
-              <Link href="#testimonials" className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">Témoignages</Link>
-              <Link href="#pricing" className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">Tarifs</Link>
-            </div>
-            <div className="flex items-center gap-3">
-              <Link href="#pricing" className="bg-blue-600 text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-blue-700 transition-all shadow-sm shadow-blue-600/20 hover:shadow-md hover:shadow-blue-600/30">
-                Acheter maintenant
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+              
+              <h1 className="text-[clamp(3.5rem,6vw,5rem)] font-extrabold tracking-tighter leading-[1.05] mb-6 text-slate-900">
+                La tablette <br className="hidden lg:block" />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0265BF] to-blue-500">ultime</span> pour enseigner.
+              </h1>
+              <p className="text-xl text-slate-600 leading-relaxed max-w-lg mb-10 font-medium">
+                Oubliez la souris. Écrivez, dessinez et annotez naturellement. L'outil indispensable pour des cours en ligne captivants.
+              </p>
+            </Reveal>
 
-      {/* ==================== HERO ==================== */}
-      <section className="pt-32 pb-16 lg:pt-44 lg:pb-24 relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-gradient-to-b from-blue-50 to-transparent rounded-full blur-3xl -z-10" />
+            <Reveal delay={0.2}>
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-wrap items-center gap-4">
+                  <Link href="#pricing" className="bg-[#0265BF] text-white px-8 py-4 rounded-full text-[16px] font-bold hover:bg-[#0254a3] transition-all shadow-[0_8px_20px_-6px_rgba(2,101,191,0.4)] hover:shadow-[0_12px_25px_-6px_rgba(2,101,191,0.5)] hover:-translate-y-0.5 flex items-center gap-2">
+                    Commander maintenant
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </Link>
+                  <div className="flex items-center gap-3 text-sm font-medium text-slate-600">
+                    <div className="flex -space-x-3">
+                      <div className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden z-[3] shadow-sm">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" className="w-full h-full object-cover" />
+                      </div>
+                      <div className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden z-[2] shadow-sm">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" className="w-full h-full object-cover" />
+                      </div>
+                      <div className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden z-[1] shadow-sm">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="User" className="w-full h-full object-cover" />
+                      </div>
+                    </div>
+                    <div className="flex flex-col justify-center">
+                      <div className="flex items-center gap-1 text-amber-400">
+                        {[...Array(5)].map((_, i) => (
+                          <svg key={i} className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                        ))}
+                      </div>
+                      <span className="text-[13px] font-semibold text-slate-600 mt-0.5">+2000 tuteurs équipés</span>
+                    </div>
+                  </div>
+                </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-4xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 text-blue-700 text-sm font-semibold mb-8 border border-blue-100"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600" />
-              </span>
-              La tablette #1 pour l'enseignement en ligne
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.1]"
-            >
-              La tablette graphique conçue pour{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-500">
-                les enseignants
-              </span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-lg lg:text-xl text-slate-500 mb-10 max-w-2xl mx-auto leading-relaxed"
-            >
-              Zéro latence, stylet sans pile, surface texture papier. L'Edupad transforme vos cours en ligne en une expérience naturelle et fluide — comme si vous écriviez au tableau.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6"
-            >
-              <Link
-                href="#pricing"
-                className="w-full sm:w-auto bg-blue-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/25 flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98]"
-              >
-                Commander mon Edupad <ArrowRight className="w-5 h-5" />
-              </Link>
-              <Link
-                href="#how-it-works"
-                className="w-full sm:w-auto text-slate-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-slate-100 transition-all flex items-center justify-center gap-2 border border-slate-200"
-              >
-                Voir comment ça marche
-              </Link>
-            </motion.div>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="text-sm text-slate-400 font-medium"
-            >
-              Satisfait ou remboursé 30 jours. Aucun risque.
-            </motion.p>
+                <div className="flex flex-wrap items-center gap-6 text-[13px] font-medium text-slate-500 bg-slate-50/80 backdrop-blur-sm p-4 rounded-2xl border border-slate-200 w-fit shadow-sm">
+                  <div className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-[#0265BF]" /> Livraison gratuite au Canada
+                  </div>
+                </div>
+              </div>
+            </Reveal>
           </div>
 
-          {/* Product Visual */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="mt-20 relative mx-auto max-w-5xl"
-          >
-            <div className="aspect-[16/9] rounded-2xl bg-slate-900 shadow-2xl overflow-hidden border border-slate-700/50 relative">
-              <div className="absolute inset-0 bg-[#1a1a2e] flex flex-col">
-                <div className="h-11 bg-[#16213e] border-b border-[#0f3460]/50 flex items-center px-4 gap-4">
+          {/* Right Column */}
+          <Reveal delay={0.1} className="relative w-full max-w-3xl mx-auto lg:col-span-7 mt-16 lg:mt-0">
+            <div className="relative flex justify-center items-center group">
+              
+              <Image
+                src="/images/Sans titre (1000 x 1000 px) (2).png"
+                alt="Edupad Pro"
+                width={1000}
+                height={1000}
+                className="w-[80%] lg:w-[75%] h-auto drop-shadow-2xl origin-center object-contain mx-auto relative z-10 transform group-hover:scale-[1.02] transition-transform duration-700"
+                priority
+              />
+              
+              {/* Floating Buy Card */}
+              <div className="absolute -bottom-8 lg:-bottom-12 left-4 right-4 sm:left-12 sm:right-12 bg-white/95 backdrop-blur-xl rounded-3xl p-6 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] border border-slate-100 z-30 transform transition-transform hover:-translate-y-1 duration-300">
+                <div className="flex justify-between items-center mb-5 pb-5 border-b border-slate-100">
+                  <div className="flex flex-col">
+                    <span className="text-lg font-bold text-slate-900">Edupad Pro</span>
+                    <span className="text-[13px] text-slate-500 font-medium">Le pack complet pour tuteur</span>
+                  </div>
                   <div className="flex gap-2">
-                    <div className="w-3 h-3 rounded-full bg-[#e94560]" />
-                    <div className="w-3 h-3 rounded-full bg-amber-400" />
-                    <div className="w-3 h-3 rounded-full bg-emerald-400" />
-                  </div>
-                  <div className="flex-1 text-center text-xs text-slate-400 font-medium font-mono">
-                    Cours de Mathématiques — Tableau Blanc Interactif
-                  </div>
-                  <div className="flex gap-3 text-slate-500">
-                    <Video className="w-4 h-4" />
-                    <Share2 className="w-4 h-4" />
-                    <Users className="w-4 h-4" />
-                  </div>
-                </div>
-                <div className="flex-1 relative bg-[#0a0a1a]">
-                  <div
-                    className="absolute inset-0 opacity-20"
-                    style={{ backgroundImage: "radial-gradient(#1e3a5f 1px, transparent 1px)", backgroundSize: "24px 24px" }}
-                  />
-                  <svg className="w-full h-full relative z-10" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
-                    {/* Equation */}
-                    <motion.text
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 1.5, duration: 0.5 }}
-                      x="80" y="80" fill="#3b82f6" fontSize="24" fontFamily="serif" fontStyle="italic"
-                    >
-                      f(x) = x² + 2x + 1
-                    </motion.text>
-                    <motion.text
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 2, duration: 0.5 }}
-                      x="80" y="120" fill="#94a3b8" fontSize="16" fontFamily="sans-serif"
-                    >
-                      Factorisation :
-                    </motion.text>
-                    <motion.text
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 2.5, duration: 0.5 }}
-                      x="80" y="155" fill="#10b981" fontSize="22" fontFamily="serif" fontStyle="italic"
-                    >
-                      f(x) = (x + 1)²
-                    </motion.text>
-                    {/* Parabola */}
-                    <motion.path
-                      initial={{ pathLength: 0 }}
-                      animate={{ pathLength: 1 }}
-                      transition={{ delay: 3, duration: 2, ease: "easeInOut" }}
-                      d="M450,350 Q500,300 550,260 Q600,230 650,260 Q700,300 750,350"
-                      fill="none" stroke="#3b82f6" strokeWidth="3" strokeLinecap="round"
-                    />
-                    {/* Axes */}
-                    <motion.line
-                      initial={{ pathLength: 0 }}
-                      animate={{ pathLength: 1 }}
-                      transition={{ delay: 2.8, duration: 0.5 }}
-                      x1="430" y1="350" x2="770" y2="350" stroke="#334155" strokeWidth="1.5"
-                    />
-                    <motion.line
-                      initial={{ pathLength: 0 }}
-                      animate={{ pathLength: 1 }}
-                      transition={{ delay: 2.8, duration: 0.5 }}
-                      x1="600" y1="200" x2="600" y2="370" stroke="#334155" strokeWidth="1.5"
-                    />
-                    <motion.text
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 5, duration: 0.5 }}
-                      x="580" y="395" fill="#64748b" fontSize="12" fontFamily="sans-serif"
-                    >
-                      x
-                    </motion.text>
-                    <motion.text
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 5, duration: 0.5 }}
-                      x="605" y="215" fill="#64748b" fontSize="12" fontFamily="sans-serif"
-                    >
-                      y
-                    </motion.text>
-                    {/* Vertex dot */}
-                    <motion.circle
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 5, duration: 0.3 }}
-                      cx="600" cy="260" r="5" fill="#10b981"
-                    />
-                    <motion.text
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 5.5, duration: 0.5 }}
-                      x="610" y="255" fill="#10b981" fontSize="12" fontFamily="sans-serif"
-                    >
-                      sommet (-1, 0)
-                    </motion.text>
-                  </svg>
-                  {/* Cursor */}
-                  <motion.div
-                    animate={{ x: [0, 60, 120, 60, 0], y: [0, -30, 0, 30, 0] }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute top-1/2 left-1/2 w-5 h-5 -ml-2.5 -mt-2.5 text-white drop-shadow-[0_0_8px_rgba(59,130,246,0.6)] z-20"
-                  >
-                    <MousePointer2 className="w-full h-full" />
-                  </motion.div>
-                </div>
-              </div>
-            </div>
-            <div className="absolute -inset-4 bg-gradient-to-r from-blue-600/15 to-indigo-500/15 blur-3xl -z-10 rounded-3xl" />
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl mx-auto"
-          >
-            {[
-              { value: "10 000+", label: "Tuteurs équipés" },
-              { value: "< 8ms", label: "Latence" },
-              { value: "4.9/5", label: "Note moyenne" },
-              { value: "99.8%", label: "Satisfaction" },
-            ].map((stat, i) => (
-              <div key={i} className="text-center">
-                <div className="text-2xl lg:text-3xl font-extrabold text-slate-900">{stat.value}</div>
-                <div className="text-sm text-slate-500 mt-1 font-medium">{stat.label}</div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ==================== LOGOS ==================== */}
-      <section className="py-12 border-y border-slate-100 bg-slate-50/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-xs font-bold text-slate-400 mb-8 uppercase tracking-[0.2em]">
-            Adopté par des centaines d'entreprises de tutorat
-          </p>
-          <div className="flex flex-wrap justify-center gap-10 md:gap-16 items-center opacity-40 hover:opacity-70 transition-opacity duration-500">
-            {["Tutorat Pro", "Betterprof", "ABC Tutoring", "Tuteur Scolaire", "Academos"].map((name) => (
-              <div key={name} className="text-lg font-bold text-slate-700">{name}</div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ==================== FEATURES (TABBED) ==================== */}
-      <section id="features" className="py-24 lg:py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AnimatedSection className="text-center max-w-3xl mx-auto mb-16">
-            <p className="text-sm font-bold text-blue-600 uppercase tracking-[0.15em] mb-4">Conçu pour l'enseignement</p>
-            <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 mb-6 tracking-tight leading-tight">
-              Des caractéristiques pensées pour les tuteurs
-            </h2>
-            <p className="text-lg text-slate-500 leading-relaxed">
-              Contrairement aux tablettes graphiques traditionnelles conçues pour les artistes, l'Edupad est optimisé pour l'écriture, les mathématiques et l'annotation en temps réel.
-            </p>
-          </AnimatedSection>
-
-          {/* Tabs */}
-          <AnimatedSection>
-            <div className="flex flex-wrap justify-center gap-2 mb-12">
-              {featureTabs.map((tab) => {
-                const Icon = tab.icon;
-                const isActive = activeTab === tab.id;
-                return (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center gap-2 px-5 py-3 rounded-full text-sm font-semibold transition-all ${
-                      isActive
-                        ? "bg-blue-600 text-white shadow-md shadow-blue-600/20"
-                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                    }`}
-                  >
-                    <Icon className="w-4 h-4" />
-                    {tab.label}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Tab Content */}
-            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              {currentTab.features.map((feature, i) => (
-                <motion.div
-                  key={`${activeTab}-${i}`}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:border-blue-100 hover:bg-blue-50/30 transition-all duration-300"
-                >
-                  <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mb-5">
-                    <CheckCircle2 className="w-5 h-5 text-blue-600" />
-                  </div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-2">{feature.title}</h3>
-                  <p className="text-slate-500 leading-relaxed text-sm">{feature.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* ==================== HOW IT WORKS ==================== */}
-      <section id="how-it-works" className="py-24 lg:py-32 bg-slate-50 border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AnimatedSection className="text-center max-w-3xl mx-auto mb-20">
-            <p className="text-sm font-bold text-blue-600 uppercase tracking-[0.15em] mb-4">Simple comme bonjour</p>
-            <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 mb-6 tracking-tight">
-              Prêt en 3 étapes
-            </h2>
-            <p className="text-lg text-slate-500">
-              Une expérience fluide et sans friction, de la commande à votre premier cours.
-            </p>
-          </AnimatedSection>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {[
-              {
-                step: "01",
-                icon: Package,
-                title: "Commandez en ligne",
-                desc: "Choisissez votre kit Edupad et recevez-le chez vous en 48h avec livraison gratuite. Paiement sécurisé via Stripe.",
-              },
-              {
-                step: "02",
-                icon: Monitor,
-                title: "Branchez et c'est parti",
-                desc: "Connectez le câble USB-C à votre ordinateur. Aucun pilote à installer — votre tablette est reconnue instantanément.",
-              },
-              {
-                step: "03",
-                icon: GraduationCap,
-                title: "Enseignez naturellement",
-                desc: "Ouvrez Zoom, Teams ou Meet et commencez à écrire sur le tableau blanc. Vos élèves voient tout en temps réel.",
-              },
-            ].map((item, i) => (
-              <AnimatedSection key={i}>
-                <div className="relative bg-white p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-lg hover:shadow-blue-900/5 transition-all duration-300 h-full">
-                  <div className="text-6xl font-extrabold text-blue-100 mb-6">{item.step}</div>
-                  <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mb-5">
-                    <item.icon className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
-                  <p className="text-slate-500 leading-relaxed">{item.desc}</p>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ==================== TESTIMONIALS ==================== */}
-      <section id="testimonials" className="py-24 lg:py-32 bg-white border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AnimatedSection className="text-center mb-20">
-            <p className="text-sm font-bold text-blue-600 uppercase tracking-[0.15em] mb-4">Témoignages</p>
-            <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 mb-6 tracking-tight">
-              Ils ont transformé leurs cours
-            </h2>
-            <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-              Découvrez ce que les tuteurs et les enseignants pensent de notre tablette.
-            </p>
-          </AnimatedSection>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {testimonials.map((t, i) => (
-              <AnimatedSection key={i}>
-                <div className="bg-slate-50 p-8 rounded-3xl border border-slate-100 h-full flex flex-col">
-                  <div className="flex gap-1 mb-5">
-                    {[...Array(t.rating)].map((_, j) => (
-                      <Star key={j} className="w-5 h-5 fill-amber-400 text-amber-400" />
-                    ))}
-                  </div>
-                  <p className="text-slate-700 leading-relaxed mb-8 flex-1">&ldquo;{t.quote}&rdquo;</p>
-                  <div className="flex items-center gap-4 pt-6 border-t border-slate-200">
-                    <div className="w-11 h-11 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-md">
-                      {t.author.charAt(0)}
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-slate-900 text-sm">{t.author}</h4>
-                      <p className="text-xs text-slate-500">{t.role}</p>
-                    </div>
-                    <div className="ml-auto">
-                      <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full">
-                        Client vérifié
-                      </span>
+                    <div className="flex items-center gap-1.5 bg-green-50 text-green-700 px-2.5 py-1 rounded-full border border-green-100">
+                      <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                      <span className="text-[11px] font-bold uppercase tracking-wider">En stock</span>
                     </div>
                   </div>
                 </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ==================== SECURITY ==================== */}
-      <section className="py-24 lg:py-32 bg-slate-50 border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AnimatedSection className="text-center max-w-3xl mx-auto mb-16">
-            <p className="text-sm font-bold text-blue-600 uppercase tracking-[0.15em] mb-4">Qualité garantie</p>
-            <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 mb-6 tracking-tight">
-              Un produit fiable et durable
-            </h2>
-            <p className="text-lg text-slate-500">
-              Nous concevons l'Edupad avec les mêmes standards de qualité que les leaders de l'industrie.
-            </p>
-          </AnimatedSection>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {[
-              { icon: ShieldCheck, title: "Garantie 2 ans", desc: "Remplacement gratuit en cas de défaut de fabrication pendant 24 mois." },
-              { icon: Award, title: "Certifié CE & FCC", desc: "Conforme aux normes de sécurité européennes et nord-américaines." },
-              { icon: RefreshCcw, title: "Remboursement 30 jours", desc: "Pas satisfait ? Retournez votre Edupad pour un remboursement complet." },
-              { icon: Lock, title: "Paiement sécurisé", desc: "Transactions protégées par Stripe avec chiffrement SSL 256-bit." },
-              { icon: Globe, title: "Livraison mondiale", desc: "Expédition depuis le Canada vers le monde entier en 2-7 jours ouvrables." },
-              { icon: Heart, title: "Support réactif", desc: "Notre équipe répond à vos questions en moins de 24h, 7 jours sur 7." },
-            ].map((item, i) => (
-              <AnimatedSection key={i}>
-                <div className="bg-white p-6 rounded-2xl border border-slate-200 flex gap-4 hover:shadow-md transition-shadow">
-                  <div className="w-11 h-11 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <item.icon className="w-5 h-5 text-blue-600" />
+                <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl font-black text-slate-900">129 $</span>
+                    <span className="text-sm text-slate-400 font-medium line-through">159 $</span>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-slate-900 mb-1">{item.title}</h3>
-                    <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
+                  <Link href="#pricing" className="w-full sm:w-auto bg-[#0265BF] text-white px-8 py-3.5 rounded-full text-[15px] font-bold hover:bg-[#0254a3] transition-all shadow-[0_8px_20px_-6px_rgba(2,101,191,0.4)] hover:shadow-[0_12px_25px_-6px_rgba(2,101,191,0.5)] hover:-translate-y-0.5 text-center">
+                    Acheter maintenant
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ===== SUB-HERO STATEMENT ===== */}
+      <section className="py-32 px-6">
+        <div className="max-w-[1200px] mx-auto">
+          <Reveal>
+            <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold tracking-tighter leading-[1.1] mb-20 max-w-4xl">
+              Vos explications, parfaitement claires —<br />
+              <span className="text-[#86868b]">aujourd'hui, demain, et au-delà.</span>
+            </h2>
+          </Reveal>
+
+          <div className="grid md:grid-cols-3 gap-12 lg:gap-16">
+            <Reveal delay={0.1}>
+              <h3 className="font-bold text-[22px] mb-4 tracking-tight">La première surface texturée auditable</h3>
+              <p className="text-[#86868b] text-[17px] leading-relaxed">
+                Notre texture micro-grainée est ouverte à tous pour vérifier exactement comment elle capture vos traits, offrant la protection anti-glisse la plus avancée jamais créée.
+              </p>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <h3 className="font-bold text-[22px] mb-4 tracking-tight">Le premier stylet sans pile EMR</h3>
+              <p className="text-[#86868b] text-[17px] leading-relaxed">
+                L'Edupad utilise la résonance électromagnétique pour alimenter le stylet, vous protégeant contre les pannes de batterie en plein cours et garantissant une fiabilité absolue.
+              </p>
+            </Reveal>
+            <Reveal delay={0.3}>
+              <h3 className="font-bold text-[22px] mb-4 tracking-tight">Connectivité universelle</h3>
+              <p className="text-[#86868b] text-[17px] leading-relaxed">
+                Gérez vos cours de manière transparente sur n'importe quel appareil (Mac, PC, ChromeOS) avec notre connexion USB-C Plug & Play ultra-rapide et sécurisée.
+              </p>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== BIG TEXT (L'ÉCRITURE COMPTE) ===== */}
+      <section className="py-32 text-center overflow-hidden relative" ref={bigTextRef}>
+        <motion.h2
+          initial={{ opacity: 0, y: 50 }}
+          animate={bigTextInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="text-[clamp(4rem,15vw,14rem)] font-black tracking-tighter leading-[0.85] text-[#111]"
+        >
+          L'ÉCRITURE
+        </motion.h2>
+        <div className="relative z-10 -my-16 lg:-my-32 max-w-3xl mx-auto px-6">
+          <Image src="/images/Sans titre (1000 x 1000 px) (1).png" alt="Edupad Box" width={1000} height={1000} className="w-full h-auto drop-shadow-2xl" />
+        </div>
+        <motion.h2
+          initial={{ opacity: 0, y: 50 }}
+          animate={bigTextInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          className="text-[clamp(4rem,15vw,14rem)] font-black tracking-tighter leading-[0.85] text-white relative z-20"
+        >
+          COMPTE
+        </motion.h2>
+      </section>
+
+      {/* ===== VIDEO SHOWCASE ===== */}
+      <section className="py-24 px-6 bg-black">
+        <div className="max-w-[1000px] mx-auto">
+          <Reveal>
+            <div className="text-center mb-12">
+              <h2 className="text-[clamp(2rem,4vw,3rem)] font-bold tracking-tighter leading-[1.1] mb-4 text-white">
+                Voyez la différence.
+              </h2>
+              <p className="text-[#86868b] text-lg font-medium">L'Edupad Pro en action.</p>
+            </div>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <div className="relative rounded-3xl overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] border border-[#333]">
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-auto"
+              >
+                <source src="/images/566ce3539c6aecfddbf5b605f8c1b3b504eb3db1gs2CV.f30.mp4" type="video/mp4" />
+              </video>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ===== PRECISION & DESIGN ===== */}
+      <section id="features" className="py-24 px-6 border-t border-[#222] scroll-mt-24">
+        <div className="max-w-[1200px] mx-auto">
+          <Reveal>
+            <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-bold tracking-tighter leading-[1.1] mb-20">
+              Précision sans précédent.<br />
+              <span className="text-[#86868b]">Conception sans compromis.</span>
+            </h2>
+          </Reveal>
+
+          <div className="grid md:grid-cols-2 gap-16 lg:gap-24">
+            <Reveal delay={0.1}>
+              <h3 className="text-[28px] font-bold mb-6 tracking-tight">Puce de traitement révolutionnaire</h3>
+              <p className="text-[#86868b] text-[18px] leading-relaxed">
+                Le processeur ARM Cortex M33 à 160MHz est le premier ouvert à tous pour auditer et vérifier exactement comment il traite vos tracés, offrant la latence la plus faible jamais créée pour l'enseignement.
+              </p>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <h3 className="text-[28px] font-bold mb-6 tracking-tight">Double protection anti-glisse</h3>
+              <p className="text-[#86868b] text-[18px] leading-relaxed">
+                L'Edupad combine une surface texturée spécifique avec des mines de stylet adaptées pour offrir la protection physique la plus forte de l'industrie contre l'écriture tremblante.
+              </p>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== HIGH-RES SURFACE (Grey Background) ===== */}
+      <section className="py-28 px-6 bg-[#111]">
+        <div className="max-w-[1200px] mx-auto">
+          <Reveal>
+            <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-bold tracking-tighter leading-[1.1] mb-6">
+              Surface texturée haute précision
+            </h2>
+            <p className="text-[#86868b] text-[20px] mb-20 max-w-3xl leading-relaxed">
+              Révisez chaque détail et signez toutes vos équations avec une confiance absolue sur notre surface la plus réactive à ce jour.
+            </p>
+          </Reveal>
+
+          <div className="grid md:grid-cols-3 gap-12 mb-20">
+            <Reveal delay={0.1}>
+              <div className="border-l-2 border-[#333] pl-6">
+                <h4 className="font-bold text-[20px] mb-3">Perfection à chaque trait</h4>
+                <p className="text-[#86868b] text-[16px]">Détails nets, 8192 niveaux de pression</p>
+              </div>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <div className="border-l-2 border-[#333] pl-6">
+                <h4 className="font-bold text-[20px] mb-3">Protection anti-rayures</h4>
+                <p className="text-[#86868b] text-[16px]">Résistant à l'usure et aux traces de doigts</p>
+              </div>
+            </Reveal>
+            <Reveal delay={0.3}>
+              <div className="border-l-2 border-[#333] pl-6">
+                <h4 className="font-bold text-[20px] mb-3">Retour haptique naturel</h4>
+                <p className="text-[#86868b] text-[16px]">Toucher rassurant à chaque interaction</p>
+              </div>
+            </Reveal>
+          </div>
+
+          <div className="flex flex-wrap gap-16 items-end">
+            <Reveal delay={0.4}>
+              <div className="text-[5rem] lg:text-[7rem] font-bold tracking-tighter leading-none mb-2">6 x 3.74"</div>
+              <div className="text-[#86868b] text-[18px] font-medium">Format optimisé</div>
+            </Reveal>
+            <Reveal delay={0.5}>
+              <div className="text-[5rem] lg:text-[7rem] font-bold tracking-tighter leading-none mb-2">60°</div>
+              <div className="text-[#86868b] text-[18px] font-medium">Détection d'inclinaison</div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== DO MORE WITH EDUPAD ===== */}
+      <section className="py-28 px-6 bg-black">
+        <div className="max-w-[1200px] mx-auto text-center">
+          <Reveal>
+            <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-bold tracking-tighter leading-[1.1] mb-20">
+              Faites plus<br />avec l'Edupad
+            </h2>
+          </Reveal>
+
+          <div className="grid md:grid-cols-2 gap-8 text-left">
+            <Reveal delay={0.1}>
+              <div className="bg-[#111] rounded-[32px] p-10 lg:p-14 h-full border border-[#222]">
+                <div className="text-white font-bold mb-5 uppercase tracking-widest text-[13px]">Application tout-en-un</div>
+                <h3 className="text-[26px] font-bold mb-6 tracking-tight leading-[1.3]">
+                  Votre centre de contrôle pour gérer, configurer et personnaliser vos raccourcis sur bureau.
+                </h3>
+                <p className="text-[#86868b] mb-10 text-[16px]">Disponible pour Mac et Windows</p>
+                <div className="relative aspect-video rounded-2xl overflow-hidden bg-[#1a1a1a]">
+                  <Image src="/images/whiteboard-app.png" alt="App" fill className="object-cover opacity-80" />
+                </div>
+              </div>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <div className="bg-[#111] rounded-[32px] p-10 lg:p-14 h-full border border-[#222] flex flex-col">
+                <div className="text-white font-bold mb-5 uppercase tracking-widest text-[13px]">Des milliers d'heures</div>
+                <h3 className="text-[26px] font-bold mb-6 tracking-tight leading-[1.3]">
+                  Gérez facilement vos cours de Mathématiques, Physique, Chimie, et bien plus avec une seule tablette.
+                </h3>
+                <div className="mt-auto pt-10">
+                  <Link href="#" className="text-white underline underline-offset-8 decoration-[#333] hover:decoration-white transition-colors font-bold text-[16px]">
+                    Voir les matières compatibles
+                  </Link>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== SPECS ===== */}
+      <section id="specs" className="py-28 px-6 bg-black border-t border-[#222] scroll-mt-24">
+        <div className="max-w-[1200px] mx-auto">
+          <Reveal>
+            <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-bold tracking-tighter leading-[1.1] mb-6">
+              Spécifications
+            </h2>
+            <p className="text-[#86868b] text-[20px] mb-20">Conçu pour l'excellence. Pensé pour inspirer.</p>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <div className="flex flex-wrap gap-12 lg:gap-24 mb-20 border-b border-[#222] pb-20">
+              <div>
+                <div className="text-[28px] font-bold mb-2 tracking-tight">254 mm / 10 in</div>
+                <div className="text-[#86868b] text-[15px]">Longueur</div>
+              </div>
+              <div>
+                <div className="text-[28px] font-bold mb-2 tracking-tight">158 mm / 6.2 in</div>
+                <div className="text-[#86868b] text-[15px]">Largeur</div>
+              </div>
+              <div>
+                <div className="text-[28px] font-bold mb-2 tracking-tight">8 mm / 0.3 in</div>
+                <div className="text-[#86868b] text-[15px]">Épaisseur</div>
+              </div>
+              <div>
+                <div className="text-[28px] font-bold mb-2 tracking-tight">245 g / 8.6 oz</div>
+                <div className="text-[#86868b] text-[15px]">Poids</div>
+              </div>
+            </div>
+          </Reveal>
+
+          <div className="grid md:grid-cols-2 gap-x-20 gap-y-16">
+            <Reveal delay={0.2}>
+              <h3 className="text-[22px] font-bold mb-8">Aperçu rapide</h3>
+              <ul className="space-y-8">
+                <li>
+                  <div className="font-bold text-[17px] mb-1">Puce de traitement ARM</div>
+                  <div className="text-[#86868b] text-[15px]">Nouveau standard pour une latence ultra-faible</div>
+                </li>
+                <li>
+                  <div className="font-bold text-[17px] mb-1">Architecture Plug & Play</div>
+                  <div className="text-[#86868b] text-[15px]">Spécifiquement conçu pour fonctionner sans pilote</div>
+                </li>
+                <li>
+                  <div className="font-bold text-[17px] mb-1">Connectivité filaire</div>
+                  <div className="text-[#86868b] text-[15px]">Se connecte en USB-C de manière sécurisée</div>
+                </li>
+                <li>
+                  <div className="font-bold text-[17px] mb-1">Surface active 6 x 3.74 pouces</div>
+                  <div className="text-[#86868b] text-[15px]">Format compact idéal pour le bureau et la mobilité</div>
+                </li>
+              </ul>
+            </Reveal>
+
+            <Reveal delay={0.3}>
+              <h3 className="text-[22px] font-bold mb-8">Dans la boîte</h3>
+              <ul className="space-y-5 text-[#86868b] text-[16px]">
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#333]" /> Tablette graphique Edupad Pro</li>
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#333]" /> Stylet EMR sans pile</li>
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#333]" /> Câble USB-C vers USB-A/C</li>
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#333]" /> 10x mines de rechange</li>
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#333]" /> Gant de dessin anti-friction</li>
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#333]" /> Guide de démarrage rapide</li>
+              </ul>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== PRICING ===== */}
+      <section id="pricing" className="py-32 px-6 relative overflow-hidden bg-white scroll-mt-24">
+        {/* Premium Light Background */}
+        <div className="absolute inset-0 bg-slate-50/50 z-0" />
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#0265BF]/5 blur-[120px] rounded-full pointer-events-none z-0" />
+        
+        <div className="max-w-[1200px] mx-auto relative z-10">
+          <div className="text-center mb-24">
+            <Reveal>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 mb-8">
+                <span className="flex h-2 w-2 rounded-full bg-[#0265BF] animate-pulse"></span>
+                <span className="text-sm font-semibold text-[#0265BF] tracking-wide uppercase">En stock & prêt à expédier</span>
+              </div>
+              <h2 className="text-[clamp(3rem,6vw,5rem)] font-bold tracking-tighter leading-[1.05] mb-6 text-slate-900">
+                L'excellence au service<br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-br from-[#0265BF] to-blue-400">
+                  de votre enseignement.
+                </span>
+              </h2>
+              <p className="text-slate-500 text-[22px] max-w-2xl mx-auto font-medium leading-relaxed">
+                Un investissement unique. Une qualité professionnelle. Tout ce dont vous avez besoin pour des cours en ligne parfaits.
+              </p>
+            </Reveal>
+          </div>
+
+          <Reveal delay={0.2}>
+            <div className="max-w-[1000px] mx-auto relative">
+              {/* Premium Card Container */}
+              <div className="relative rounded-[48px] bg-white border border-slate-200 shadow-[0_20px_80px_-15px_rgba(0,0,0,0.05)] overflow-hidden">
+                
+                {/* Subtle top highlight */}
+                <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-[#0265BF] via-blue-400 to-[#0265BF]" />
+
+                <div className="flex flex-col lg:flex-row">
+                  {/* Left Column - Pricing & CTA */}
+                  <div className="flex-1 p-10 md:p-16 flex flex-col justify-center relative bg-white">
+                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-50/50 to-transparent pointer-events-none" />
+                    
+                    <div className="relative z-10">
+                      {/* Social Proof */}
+                      <div className="flex items-center gap-2 mb-8">
+                        <div className="flex gap-1">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <svg key={star} className="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                          ))}
+                        </div>
+                        <span className="text-slate-600 text-sm font-medium">4.9/5 par +500 tuteurs</span>
+                      </div>
+
+                      <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-2 tracking-tight">Edupad Pro</h3>
+                      <p className="text-slate-500 mb-10 text-xl">Le standard de l'industrie.</p>
+                      
+                      <div className="mb-10">
+                        <div className="flex items-start gap-2 text-slate-900">
+                          <span className="text-7xl font-black tracking-tighter leading-none">129</span>
+                          <div className="flex flex-col justify-start pt-2">
+                            <span className="text-2xl font-bold">$ CAD</span>
+                            <span className="text-[#0265BF] text-sm font-bold uppercase tracking-wider mt-1">Paiement unique</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <button className="w-full bg-[#0265BF] text-white hover:bg-[#0254a3] px-8 py-5 rounded-2xl text-xl font-bold transition-all duration-300 flex items-center justify-center gap-3 group/btn shadow-[0_10px_30px_-10px_rgba(2,101,191,0.5)] hover:shadow-[0_20px_40px_-15px_rgba(2,101,191,0.6)] hover:-translate-y-1">
+                        Commander maintenant
+                        <svg className="w-6 h-6 group-hover/btn:translate-x-1.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                      </button>
+                      
+                      <div className="mt-8 flex flex-col sm:flex-row items-center gap-6 text-slate-500 text-sm font-medium">
+                        <div className="flex items-center gap-2">
+                          <svg className="w-5 h-5 text-[#0265BF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                          </svg>
+                          Livraison gratuite 48h
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Right Column - Features */}
+                  <div className="flex-1 bg-slate-50 border-t lg:border-t-0 lg:border-l border-slate-200 p-10 md:p-16">
+                    <h4 className="text-slate-900 font-bold mb-8 text-2xl">L'écosystème complet</h4>
+                    <div className="grid gap-6">
+                      {[
+                        { title: "Tablette Edupad Pro", desc: "Surface active 6 x 3.74 pouces haute précision", highlight: true },
+                        { title: "Stylet EMR Avancé", desc: "8192 niveaux de pression, sans pile", highlight: true },
+                        { title: "Kit de connectivité", desc: "Câble USB-C tressé ultra-résistant", highlight: false },
+                        { title: "Accessoires pro", desc: "Gant anti-friction & 10 mines incluses", highlight: false },
+                        { title: "Suite logicielle", desc: "Compatible Windows, Mac, Android", highlight: false }
+                      ].map((item, i) => (
+                        <div key={i} className="flex items-start gap-4">
+                          <div className={`mt-1 w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${item.highlight ? 'bg-[#0265BF] text-white shadow-md' : 'bg-slate-200 text-slate-500'}`}>
+                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <div>
+                            <div className={`font-bold text-lg ${item.highlight ? 'text-slate-900' : 'text-slate-700'}`}>
+                              {item.title}
+                            </div>
+                            <div className="text-slate-500 text-sm mt-1">
+                              {item.desc}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Trust Badge */}
+                    <div className="mt-10 p-5 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
+                        <svg className="w-6 h-6 text-[#0265BF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <div className="text-slate-900 font-bold">Paiement 100% sécurisé</div>
+                        <div className="text-slate-500 text-sm">Vos données sont chiffrées de bout en bout.</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </AnimatedSection>
-            ))}
-          </div>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* ==================== PRICING ==================== */}
-      <section id="pricing" className="py-24 lg:py-32 bg-slate-900 text-white relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full bg-blue-600/10 blur-[150px] rounded-full pointer-events-none" />
-
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <AnimatedSection className="text-center mb-16">
-            <p className="text-sm font-bold text-blue-400 uppercase tracking-[0.15em] mb-4">Tarification simple</p>
-            <h2 className="text-3xl lg:text-5xl font-bold mb-6 tracking-tight">
-              Choisissez votre kit Edupad
-            </h2>
-            <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-              Un investissement unique. Pas d'abonnement, pas de frais cachés.
-            </p>
-          </AnimatedSection>
-
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {/* Starter */}
-            <AnimatedSection>
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 h-full flex flex-col">
-                <h3 className="text-xl font-bold text-white mb-1">Edupad Lite</h3>
-                <p className="text-slate-400 text-sm mb-6">Pour commencer à enseigner en ligne.</p>
-                <div className="mb-8">
-                  <span className="text-4xl font-extrabold text-white">59€</span>
-                </div>
-                <ul className="space-y-3 mb-8 flex-1">
-                  {[
-                    "Tablette Edupad Lite (A6)",
-                    "Stylet sans pile",
-                    "Câble USB-C (1.5m)",
-                    "2 mines de rechange",
-                    "Garantie 1 an",
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-center gap-3 text-sm text-slate-300">
-                      <CheckCircle2 className="w-4 h-4 text-blue-400 flex-shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <button className="w-full py-3.5 rounded-xl font-semibold text-sm border border-white/20 text-white hover:bg-white/10 transition-all">
-                  Commander
-                </button>
-              </div>
-            </AnimatedSection>
-
-            {/* Pro (Featured) */}
-            <AnimatedSection>
-              <div className="relative bg-white text-slate-900 rounded-3xl p-8 shadow-2xl h-full flex flex-col">
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-blue-500 text-white px-5 py-1.5 rounded-full text-xs font-bold shadow-lg uppercase tracking-wider">
-                  Le plus populaire
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-1">Edupad Pro</h3>
-                <p className="text-slate-500 text-sm mb-6">Le choix des tuteurs professionnels.</p>
-                <div className="mb-8 flex items-end gap-2">
-                  <span className="text-2xl text-slate-400 line-through font-medium">129€</span>
-                  <span className="text-4xl font-extrabold text-slate-900">89€</span>
-                </div>
-                <ul className="space-y-3 mb-8 flex-1">
-                  {[
-                    "Tablette Edupad Pro (A5)",
-                    "Stylet sans pile (8192 niveaux)",
-                    "Câble USB-C tressé (2m)",
-                    "Gant anti-friction",
-                    "10 mines de rechange",
-                    "Garantie 2 ans",
-                    "Support prioritaire",
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-center gap-3 text-sm text-slate-600">
-                      <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <button className="w-full py-3.5 rounded-xl font-bold text-sm bg-blue-600 text-white hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/25 flex items-center justify-center gap-2 group">
-                  Commander <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                </button>
-                <p className="text-center text-xs text-slate-400 mt-3 font-medium">Livraison gratuite en 48h</p>
-              </div>
-            </AnimatedSection>
-
-            {/* Enterprise */}
-            <AnimatedSection>
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 h-full flex flex-col">
-                <h3 className="text-xl font-bold text-white mb-1">Entreprise</h3>
-                <p className="text-slate-400 text-sm mb-6">Pour les écoles et entreprises de tutorat.</p>
-                <div className="mb-8">
-                  <span className="text-4xl font-extrabold text-white">Sur mesure</span>
-                </div>
-                <ul className="space-y-3 mb-8 flex-1">
-                  {[
-                    "10+ tablettes Edupad Pro",
-                    "Tarifs dégressifs (-15% à -40%)",
-                    "Facture corporative",
-                    "Livraison express offerte",
-                    "Gestionnaire de compte dédié",
-                    "Formation en ligne incluse",
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-center gap-3 text-sm text-slate-300">
-                      <CheckCircle2 className="w-4 h-4 text-blue-400 flex-shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <button className="w-full py-3.5 rounded-xl font-semibold text-sm border border-white/20 text-white hover:bg-white/10 transition-all flex items-center justify-center gap-2">
-                  <Send className="w-4 h-4" /> Contacter les ventes
-                </button>
-              </div>
-            </AnimatedSection>
-          </div>
-        </div>
-      </section>
-
-      {/* ==================== FAQ ==================== */}
-      <section id="faq" className="py-24 lg:py-32 bg-white border-t border-slate-100">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AnimatedSection className="text-center mb-16">
-            <p className="text-sm font-bold text-blue-600 uppercase tracking-[0.15em] mb-4">FAQ</p>
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4 tracking-tight">
+      {/* ===== FAQ ===== */}
+      <section id="faq" className="py-28 px-6 bg-[#111] scroll-mt-24">
+        <div className="max-w-[800px] mx-auto">
+          <Reveal>
+            <h2 className="text-[clamp(2.5rem,4vw,3.5rem)] font-bold tracking-tighter leading-[1.1] mb-16">
               Questions fréquentes
             </h2>
-            <p className="text-lg text-slate-500">Trouvez les réponses à vos questions.</p>
-          </AnimatedSection>
-
-          <AnimatedSection>
-            <div className="space-y-3">
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="divide-y divide-[#333]">
               {faqs.map((faq, i) => (
-                <div key={i} className="bg-slate-50 border border-slate-100 rounded-2xl overflow-hidden transition-all hover:border-slate-200">
+                <div key={i} className="py-7">
                   <button
                     onClick={() => setActiveFaq(activeFaq === i ? null : i)}
-                    className="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none gap-4"
+                    className="w-full text-left flex justify-between items-center text-white font-bold text-[18px] tracking-tight group"
                   >
-                    <span className="font-semibold text-slate-900">{faq.q}</span>
-                    <ChevronDown className={`w-5 h-5 text-slate-400 flex-shrink-0 transition-transform duration-200 ${activeFaq === i ? "rotate-180" : ""}`} />
+                    <span className="pr-8 group-hover:text-[#a1a1a6] transition-colors">{faq.q}</span>
+                    <Plus className={`w-6 h-6 flex-shrink-0 transition-transform duration-300 ${activeFaq === i ? 'rotate-45' : ''}`} />
                   </button>
-                  <div
-                    className={`overflow-hidden transition-all duration-300 ${activeFaq === i ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
-                  >
-                    <div className="px-6 pb-5 text-slate-500 leading-relaxed">{faq.a}</div>
+                  <div className={`overflow-hidden transition-all duration-300 ease-in-out ${activeFaq === i ? "max-h-60 opacity-100 mt-5" : "max-h-0 opacity-0"}`}>
+                    <p className="text-[#86868b] text-[16px] leading-relaxed">
+                      {faq.a}
+                    </p>
                   </div>
                 </div>
               ))}
             </div>
-          </AnimatedSection>
+          </Reveal>
         </div>
       </section>
 
-      {/* ==================== FINAL CTA ==================== */}
-      <section className="py-24 lg:py-32 bg-slate-50 border-t border-slate-100">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <AnimatedSection>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 text-blue-700 text-sm font-semibold mb-8 border border-blue-100">
-              <Sparkles className="w-4 h-4" />
-              Offre de lancement limitée
+      {/* ===== FOOTER ===== */}
+      <footer className="bg-black py-12 px-6 border-t border-[#222]">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-8">
+            <Image src="/images/edupad_white_png.png" alt="Edupad" width={120} height={32} className="h-6 w-auto" />
+            <div className="flex items-center gap-8 text-[14px] font-medium text-[#86868b]">
+              <Link href="#features" className="hover:text-white transition-colors">Caractéristiques</Link>
+              <Link href="#specs" className="hover:text-white transition-colors">Spécifications</Link>
+              <Link href="#pricing" className="hover:text-white transition-colors">Prix</Link>
+              <Link href="#faq" className="hover:text-white transition-colors">FAQ</Link>
             </div>
-            <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 mb-6 tracking-tight">
-              Prêt à donner de meilleurs cours ?
-            </h2>
-            <p className="text-lg text-slate-500 mb-10 max-w-xl mx-auto">
-              Arrêtez de galérer avec votre souris. Rejoignez les milliers de tuteurs qui enseignent comme s'ils étaient dans la même pièce que leurs élèves.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                href="#pricing"
-                className="w-full sm:w-auto bg-blue-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/25 flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98]"
-              >
-                Commander mon Edupad <ArrowRight className="w-5 h-5" />
-              </Link>
-              <Link
-                href="mailto:hello@edupad.ca"
-                className="w-full sm:w-auto text-slate-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-slate-100 transition-all flex items-center justify-center gap-2 border border-slate-200"
-              >
-                Contacter les ventes
-              </Link>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* ==================== FOOTER ==================== */}
-      <footer className="bg-white py-12 border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 bg-blue-600 rounded-xl flex items-center justify-center">
-                <PenTool className="text-white w-4 h-4" />
-              </div>
-              <span className="text-lg font-bold text-slate-900">Edupad</span>
-            </div>
-            <div className="flex flex-wrap justify-center gap-8 text-sm font-medium text-slate-500">
-              <Link href="#features" className="hover:text-blue-600 transition-colors">Fonctionnalités</Link>
-              <Link href="#pricing" className="hover:text-blue-600 transition-colors">Tarifs</Link>
-              <Link href="#faq" className="hover:text-blue-600 transition-colors">FAQ</Link>
-              <Link href="#" className="hover:text-blue-600 transition-colors">Conditions Générales</Link>
-              <Link href="#" className="hover:text-blue-600 transition-colors">Confidentialité</Link>
-            </div>
-            <p className="text-sm text-slate-400">© {new Date().getFullYear()} Edupad. Tous droits réservés.</p>
           </div>
-
-          <div className="mt-8 pt-8 border-t border-slate-100 text-center">
-            <p className="text-xs text-slate-400 flex items-center justify-center gap-1.5">
-              Conçu avec <Heart className="w-3 h-3 text-red-400 fill-red-400" /> au Canada 🍁
-            </p>
+          <div className="border-t border-[#222] pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[#86868b] text-[13px] font-medium">
+            <div>© {new Date().getFullYear()} Edupad. Tous droits réservés.</div>
+            <div className="flex items-center gap-2 text-[#555]">
+              info@edupad.ca
+            </div>
           </div>
         </div>
       </footer>
+
     </div>
   );
 }
