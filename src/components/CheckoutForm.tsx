@@ -47,16 +47,11 @@ export default function CheckoutForm({ amount = 159.99 }: { amount?: number }) {
     setIsLoading(true);
     setMessage(null);
 
-    const phoneE164 = phone && phone.length >= 10
-      ? (phone.length === 11 && phone.startsWith('1') ? `+${phone}` : `+1${phone}`)
-      : undefined;
-
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: `${window.location.origin}/success`,
         receipt_email: email,
-        ...(phoneE164 && { shipping: { phone: phoneE164 } }),
       },
     });
 
